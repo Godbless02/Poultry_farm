@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Nyame Nti Poultry Farm</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header-container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-main">Nyame Nti Poultry Farm</span>
+            <span class="logo-tagline"
+              >Fresh From the Farm, Straight to Your Table</span
+            >
+          </a>
+        </div>
+        <nav class="navbar">
+          <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="shop.html" class="nav-link">Shop</a></li>
+            <li>
+              <a href="cart.html" class="nav-link"
+                >Cart <span id="cartCountBadge" class="cart-badge">0</span></a
+              >
+            </li>
+            <li>
+              <a href="login.html" class="nav-link" id="authLink">Login</a>
+            </li>
+            <li>
+              <span class="nav-link" id="authUser" style="display: none"></span>
+            </li>
+          </ul>
+          <div class="hamburger"><i class="fas fa-bars"></i></div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="auth-main">
+      <div class="container">
+        <div class="auth-card">
+          <div class="auth-intro">
+            <div class="auth-icon">
+              <i class="fas fa-store"></i>
+            </div>
+            <div>
+              <p class="auth-eyebrow">Welcome to Nyame Nti</p>
+              <h1>Farm-fresh food, made easy</h1>
+              <p class="auth-intro-copy">
+                Sign in to save your details and make your next order feel
+                effortless.
+              </p>
+            </div>
+          </div>
+
+          <div class="auth-benefits">
+            <span><i class="fas fa-truck-fast"></i> Fast delivery</span>
+            <span><i class="fas fa-shield-alt"></i> Secure checkout</span>
+            <span><i class="fas fa-basket-shopping"></i> Easy reorders</span>
+          </div>
+
+          <div class="auth-toggle">
+            <button type="button" class="auth-tab active" id="showLogin">
+              Login
+            </button>
+            <button type="button" class="auth-tab" id="showSignup">
+              Create Account
+            </button>
+          </div>
+
+          <div class="auth-panel" id="loginPanel">
+            <div class="auth-panel-header">
+              <h2>Login to your account</h2>
+              <p>Welcome back! Please sign in to continue your order.</p>
+            </div>
+            <form id="loginForm" class="auth-form">
+              <div class="form-row">
+                <label for="loginEmail">Email</label>
+                <input
+                  type="email"
+                  id="loginEmail"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div class="form-row">
+                <label for="loginPassword">Password</label>
+                <input
+                  type="password"
+                  id="loginPassword"
+                  placeholder="Enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-arrow-right"></i> Login
+              </button>
+            </form>
+            <div id="forgotPasswordPanel" class="auth-inline-panel hidden">
+              <h3>Reset your password</h3>
+              <p>Enter your email and we will send a secure reset link.</p>
+              <form id="forgotPasswordForm" class="auth-form">
+                <div class="form-row">
+                  <label for="forgotEmail">Email address</label>
+                  <input
+                    type="email"
+                    id="forgotEmail"
+                    placeholder="you@example.com"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  <i class="fas fa-paper-plane"></i> Send reset link
+                </button>
+              </form>
+              <p class="auth-note">
+                <a href="#" id="backToLoginFromForgot">Back to login</a>
+              </p>
+            </div>
+            <div id="resetPasswordPanel" class="auth-inline-panel hidden">
+              <h3>Create a new password</h3>
+              <p>Choose a new password for your account.</p>
+              <form id="resetPasswordForm" class="auth-form">
+                <input type="hidden" id="resetToken" />
+                <div class="form-row">
+                  <label for="newPassword">New password</label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    placeholder="Enter a new password"
+                    required
+                  />
+                </div>
+                <div class="form-row">
+                  <label for="confirmNewPassword">Confirm new password</label>
+                  <input
+                    type="password"
+                    id="confirmNewPassword"
+                    placeholder="Re-enter your password"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  <i class="fas fa-key"></i> Reset password
+                </button>
+              </form>
+              <p class="auth-note">
+                <a href="#" id="backToLoginFromReset">Back to login</a>
+              </p>
+            </div>
+            <p class="auth-note">
+              <a href="#" id="showForgotForm">Forgot password?</a>
+            </p>
+            <p class="auth-note">
+              Need an account?
+              <a href="#" id="switchToSignup">Create one here</a>.
+            </p>
+          </div>
+
+          <div class="auth-panel hidden" id="signupPanel">
+            <div class="auth-panel-header">
+              <h2>Create a new account</h2>
+              <p>
+                Sign up now to shop fresh products from Nyame Nti Poultry Farm.
+              </p>
+            </div>
+            <form id="signupForm" class="auth-form">
+              <div class="form-row">
+                <label for="signupName">Full Name</label>
+                <input
+                  type="text"
+                  id="signupName"
+                  placeholder="Your name"
+                  required
+                />
+              </div>
+              <div class="form-row">
+                <label for="signupUsername">Username</label>
+                <input
+                  type="text"
+                  id="signupUsername"
+                  placeholder="yourusername"
+                  required
+                />
+              </div>
+              <div class="form-row">
+                <label for="signupEmail">Email</label>
+                <input
+                  type="email"
+                  id="signupEmail"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+              <div class="form-row">
+                <label for="signupPassword">Password</label>
+                <input
+                  type="password"
+                  id="signupPassword"
+                  placeholder="Create a password"
+                  required
+                />
+              </div>
+              <div class="form-row">
+                <label for="signupConfirmPassword">Confirm Password</label>
+                <input
+                  type="password"
+                  id="signupConfirmPassword"
+                  placeholder="Re-enter your password"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">
+                <i class="fas fa-user-plus"></i> Create Account
+              </button>
+            </form>
+            <p class="auth-note">
+              Already have an account?
+              <a href="#" id="switchToLogin">Log in instead</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Nyame Nti Poultry Farm</h4>
+          <p>
+            Wenchi-BOADAN, Bono Region, Ghana<br />+233 20 000 0000<br />abasspoultry@gmail.com
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/scripts/auth.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const loginPanel = document.getElementById("loginPanel");
+        const signupPanel = document.getElementById("signupPanel");
+        const showLoginBtn = document.getElementById("showLogin");
+        const showSignupBtn = document.getElementById("showSignup");
+        const switchToSignup = document.getElementById("switchToSignup");
+        const switchToLogin = document.getElementById("switchToLogin");
+        const showForgotForm = document.getElementById("showForgotForm");
+        const forgotPasswordPanel = document.getElementById(
+          "forgotPasswordPanel",
+        );
+        const resetPasswordPanel =
+          document.getElementById("resetPasswordPanel");
+        const backToLoginFromForgot = document.getElementById(
+          "backToLoginFromForgot",
+        );
+        const backToLoginFromReset = document.getElementById(
+          "backToLoginFromReset",
+        );
+        const resetTokenInput = document.getElementById("resetToken");
+
+        function showPanel(panel) {
+          if (panel === "signup") {
+            loginPanel.classList.add("hidden");
+            signupPanel.classList.remove("hidden");
+            showLoginBtn.classList.remove("active");
+            showSignupBtn.classList.add("active");
+          } else {
+            signupPanel.classList.add("hidden");
+            loginPanel.classList.remove("hidden");
+            showSignupBtn.classList.remove("active");
+            showLoginBtn.classList.add("active");
+          }
+        }
+
+        function showAuthSection(section) {
+          const loginForm = document.getElementById("loginForm");
+          if (section === "forgot") {
+            loginForm.classList.add("hidden");
+            forgotPasswordPanel.classList.remove("hidden");
+            resetPasswordPanel.classList.add("hidden");
+          } else if (section === "reset") {
+            loginForm.classList.add("hidden");
+            forgotPasswordPanel.classList.add("hidden");
+            resetPasswordPanel.classList.remove("hidden");
+          } else {
+            loginForm.classList.remove("hidden");
+            forgotPasswordPanel.classList.add("hidden");
+            resetPasswordPanel.classList.add("hidden");
+          }
+        }
+
+        showLoginBtn.addEventListener("click", () => showPanel("login"));
+        showSignupBtn.addEventListener("click", () => showPanel("signup"));
+        switchToSignup?.addEventListener("click", (event) => {
+          event.preventDefault();
+          showPanel("signup");
+        });
+        switchToLogin?.addEventListener("click", (event) => {
+          event.preventDefault();
+          showPanel("login");
+        });
+        showForgotForm?.addEventListener("click", (event) => {
+          event.preventDefault();
+          showAuthSection("forgot");
+        });
+        backToLoginFromForgot?.addEventListener("click", (event) => {
+          event.preventDefault();
+          showAuthSection("login");
+        });
+        backToLoginFromReset?.addEventListener("click", (event) => {
+          event.preventDefault();
+          showAuthSection("login");
+        });
+
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("verified") === "1") {
+          authShowToast(
+            "Email verified successfully. You can now log in.",
+            "#2E7D32",
+          );
+        } else if (params.get("verified") === "0") {
+          authShowToast(
+            "This verification link is invalid or has expired.",
+            "#e74c3c",
+          );
+        }
+
+        if (params.get("reset_token")) {
+          resetTokenInput.value = params.get("reset_token");
+          showAuthSection("reset");
+        }
+
+        const loginForm = document.getElementById("loginForm");
+        loginForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const email = document.getElementById("loginEmail").value;
+          const password = document.getElementById("loginPassword").value;
+          const result = await loginUser(email, password);
+          if (!result.success) {
+            authShowToast(result.message, "#e74c3c");
+            return;
+          }
+          authShowToast(result.message, "#2E7D32");
+          const next = getNextRedirect("shop.html");
+          setTimeout(() => (window.location.href = next), 800);
+        });
+
+        const forgotPasswordForm =
+          document.getElementById("forgotPasswordForm");
+        forgotPasswordForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const email = document.getElementById("forgotEmail").value;
+          const result = await requestPasswordReset(email);
+          authShowToast(result.message, result.success ? "#2E7D32" : "#e74c3c");
+        });
+
+        const resetPasswordForm = document.getElementById("resetPasswordForm");
+        resetPasswordForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const token = resetTokenInput.value;
+          const password = document.getElementById("newPassword").value;
+          const passwordConfirm =
+            document.getElementById("confirmNewPassword").value;
+          const result = await resetPassword(token, password, passwordConfirm);
+          if (!result.success) {
+            authShowToast(result.message, "#e74c3c");
+            return;
+          }
+          authShowToast(result.message, "#2E7D32");
+          showAuthSection("login");
+          document.getElementById("loginEmail").focus();
+        });
+
+        const signupForm = document.getElementById("signupForm");
+        signupForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          const name = document.getElementById("signupName").value;
+          const username = document.getElementById("signupUsername").value;
+          const email = document.getElementById("signupEmail").value;
+          const password = document.getElementById("signupPassword").value;
+          const passwordConfirm = document.getElementById(
+            "signupConfirmPassword",
+          ).value;
+
+          const result = await registerUser(
+            name,
+            username,
+            email,
+            password,
+            passwordConfirm,
+          );
+          if (!result.success) {
+            authShowToast(result.message, "#e74c3c");
+            return;
+          }
+
+          authShowToast(result.message, "#2E7D32");
+          document.getElementById("loginEmail").value = email;
+          showPanel("login");
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shopping Cart | Nyame Nti Poultry Farm</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header-container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-main">Nyame Nti Poultry Farm</span>
+            <span class="logo-tagline"
+              >Fresh From the Farm, Straight to Your Table</span
+            >
+          </a>
+        </div>
+        <nav class="navbar">
+          <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="shop.html" class="nav-link">Shop</a></li>
+            <li>
+              <a href="cart.html" class="nav-link active"
+                >Cart <span id="cartCountBadge" class="cart-badge">0</span></a
+              >
+            </li>
+            <li>
+              <a href="login.html" class="nav-link" id="authLink">Login</a>
+            </li>
+            <li>
+              <span class="nav-link" id="authUser" style="display: none"></span>
+            </li>
+          </ul>
+          <div class="hamburger">
+            <i class="fas fa-bars"></i>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="cart-main">
+      <div class="container">
+        <h1 class="page-title">Your Shopping Cart</h1>
+        <div class="cart-layout">
+          <div class="cart-items-section">
+            <div id="cartItemsContainer" class="cart-items"></div>
+            <div id="emptyCartMessage" class="empty-cart" style="display: none">
+              <i class="fas fa-shopping-cart"></i>
+              <p>Your cart is empty</p>
+              <a href="shop.html" class="btn btn-primary">Continue Shopping</a>
+            </div>
+          </div>
+          <div class="cart-summary-section">
+            <div class="cart-summary-card">
+              <h3>Order Summary</h3>
+              <div class="delivery-zone">
+                <label><i class="fas fa-truck"></i> Delivery Zone</label>
+                <select id="deliveryZoneSelect">
+                  <option value="wenchi">
+                    Zone 1: Wenchi Town & BOADAN (FREE over GHS 100)
+                  </option>
+                  <option value="techiman">Zone 2: Techiman - GHS 20.00</option>
+                  <option value="sunyani">Zone 3: Sunyani - GHS 30.00</option>
+                  <option value="kintampo">Zone 4: Kintampo - GHS 25.00</option>
+                  <option value="dormaa">
+                    Zone 5: Dormaa Ahenkro - GHS 35.00
+                  </option>
+                </select>
+              </div>
+              <div class="promo-code">
+                <label><i class="fas fa-tag"></i> Promo Code</label>
+                <div class="promo-input-group">
+                  <input
+                    type="text"
+                    id="promoCodeInput"
+                    placeholder="Enter ABASS5"
+                  />
+                  <button id="applyPromoBtn">Apply</button>
+                </div>
+                <small>Use ABASS5 for 5% off your first order!</small>
+              </div>
+              <div id="cartTotals"></div>
+              <button id="checkoutRedirectBtn" class="btn-checkout">
+                Proceed to Checkout
+              </button>
+              <a href="shop.html" class="continue-shopping"
+                >← Continue Shopping</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Nyame Nti Poultry Farm</h4>
+          <p>Wenchi-BOADAN, Bono Region, Ghana<br />+233 531451816</p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Nyame Nti Poultry Farm</p>
+      </div>
+    </footer>
+
+    <a
+      href="https://wa.me/233200000000?text=Hello%2C%20I%20want%20to%20order"
+      target="_blank"
+      class="whatsapp-float"
+    >
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="/scripts/auth.js"></script>
+    <script src="/scripts/cart.js"></script>
+  </body>
+</html>

@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard | Nyame Nti Poultry Farm</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/admin-style.css" />
+  </head>
+  <body>
+    <div class="admin-wrapper">
+      <!-- Login Screen -->
+      <div id="adminLoginScreen" class="admin-login-screen">
+        <div class="admin-login-card">
+          <div class="admin-logo">
+            <i class="fas fa-chicken"></i>
+            <h2>Nyame Nti Poultry Farm</h2>
+            <p>Admin Dashboard</p>
+          </div>
+          <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input
+              type="password"
+              id="adminPassword"
+              placeholder="Enter Password"
+              onkeypress="if (event.key === 'Enter') adminLogin();"
+            />
+          </div>
+          <button class="btn-admin-login" onclick="adminLogin()">
+            Login <i class="fas fa-arrow-right"></i>
+          </button>
+          <p class="demo-hint">Demo password: <strong>changeme123</strong></p>
+        </div>
+      </div>
+
+      <!-- Main Dashboard -->
+      <div id="adminDashboard" class="admin-dashboard" style="display: none">
+        <nav class="admin-nav">
+          <div class="admin-nav-brand">
+            <i class="fas fa-chicken"></i>
+            <span>Nyame Nti Poultry Admin</span>
+          </div>
+          <div class="admin-nav-links">
+            <button class="nav-tab active" data-tab="overview">
+              <i class="fas fa-chart-line"></i> Overview
+            </button>
+            <button class="nav-tab" data-tab="orders">
+              <i class="fas fa-shopping-cart"></i> Orders
+            </button>
+            <button class="nav-tab" data-tab="products">
+              <i class="fas fa-boxes"></i> Products
+            </button>
+            <button class="nav-tab" data-tab="customers">
+              <i class="fas fa-users"></i> Customers
+            </button>
+            <button class="nav-tab" data-tab="alerts">
+              <i class="fas fa-exclamation-triangle"></i> Low Stock
+            </button>
+
+            <button class="nav-tab" onclick="refreshDashboard()">
+              <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <button class="nav-tab quit-btn" onclick="adminQuit()">
+              <i class="fas fa-times-circle"></i> Logout
+            </button>
+          </div>
+        </nav>
+
+        <!-- Overview Tab -->
+        <div id="tabOverview" class="admin-tab-content active">
+          <div class="stats-grid" id="statsGrid"></div>
+          <div class="recent-orders-panel">
+            <h3><i class="fas fa-clock"></i> Recent Orders</h3>
+            <div class="table-responsive" id="recentOrdersTable"></div>
+          </div>
+        </div>
+
+        <!-- Orders Tab -->
+        <div id="tabOrders" class="admin-tab-content">
+          <div class="admin-card">
+            <h3><i class="fas fa-list"></i> All Orders</h3>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Order #</th>
+                    <th>Customer</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="ordersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Tab -->
+        <div id="tabProducts" class="admin-tab-content">
+          <div class="admin-card">
+            <div class="card-header">
+              <h3><i class="fas fa-box"></i> Product Management</h3>
+              <button class="btn-add-product" onclick="showProductModal()">
+                <i class="fas fa-plus"></i> Add Product
+              </button>
+            </div>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="productsTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customers Tab -->
+        <div id="tabCustomers" class="admin-tab-content">
+          <div class="admin-card">
+            <h3><i class="fas fa-users"></i> Customer List</h3>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Orders</th>
+                    <th>Total Spent</th>
+                  </tr>
+                </thead>
+                <tbody id="customersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Low Stock Alerts Tab -->
+        <div id="tabAlerts" class="admin-tab-content">
+          <div class="admin-card">
+            <h3>
+              <i class="fas fa-exclamation-triangle"></i> Low Stock Products
+              (&lt; 20 units)
+            </h3>
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Current Stock</th>
+                    <th>Category</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="lowStockTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeProductModal()">&times;</span>
+        <h3 id="modalTitle">Add New Product</h3>
+        <form id="productForm">
+          <input type="hidden" id="productId" />
+          <div class="form-group">
+            <label>Product Name</label>
+            <input type="text" id="prodName" required />
+          </div>
+          <div class="form-group">
+            <label>Price (GHS)</label>
+            <input type="number" step="0.01" id="prodPrice" required />
+          </div>
+          <div class="form-group">
+            <label>Unit / Notes</label>
+            <input
+              type="text"
+              id="prodUnit"
+              placeholder="e.g., per tray, per bag"
+            />
+          </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="prodCategory">
+              <option value="eggs">Eggs</option>
+              <option value="live">Live Chickens</option>
+              <option value="chicks">Day-Old Chicks</option>
+              <option value="feed">Poultry Feed</option>
+              <option value="equipment">Equipment</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Stock Quantity</label>
+            <input type="number" id="prodStock" required />
+          </div>
+          <div class="form-group">
+            <label>Image URL</label>
+            <input type="text" id="prodImage" placeholder="https://..." />
+          </div>
+          <button type="submit" class="btn-save-product">Save Product</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="/scripts/admin.js"></script>
+  </body>
+</html>

@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop | Nyame Nti Poultry Farm</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/styles/style.css" />
+    <link rel="stylesheet" href="/styles/shop-style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="container header-container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-main">Nyame Nti Poultry Farm</span>
+            <span class="logo-tagline"
+              >Fresh From the Farm, Straight to Your Table</span
+            >
+          </a>
+        </div>
+        <nav class="navbar">
+          <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link">Home</a></li>
+            <li><a href="shop.html" class="nav-link active">Shop</a></li>
+            <li>
+              <a href="cart.html" class="nav-link"
+                >Cart <span id="cartCountBadge" class="cart-badge">0</span></a
+              >
+            </li>
+            <li>
+              <a href="login.html" class="nav-link" id="authLink">Login</a>
+            </li>
+            <li>
+              <span class="nav-link" id="authUser" style="display: none"></span>
+            </li>
+          </ul>
+          <div class="hamburger">
+            <i class="fas fa-bars"></i>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main class="shop-main">
+      <div class="container">
+        <div class="shop-header">
+          <h1>Our Products</h1>
+          <p>Fresh from our farm to your table</p>
+        </div>
+
+        <!-- Search and Filter Bar -->
+        <div class="shop-controls">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search products..."
+            />
+          </div>
+          <div class="filter-tabs">
+            <button class="filter-btn active" data-category="all">All</button>
+            <button class="filter-btn" data-category="eggs">🥚 Eggs</button>
+            <button class="filter-btn" data-category="live">
+              🐔 Live Chickens
+            </button>
+            <button class="filter-btn" data-category="chicks">
+              🐤 Day-Old Chicks
+            </button>
+            <button class="filter-btn" data-category="feed">
+              🌾 Poultry Feed
+            </button>
+            <button class="filter-btn" data-category="equipment">
+              ⚙️ Equipment
+            </button>
+          </div>
+          <div class="sort-box">
+            <label>Sort by:</label>
+            <select id="sortSelect">
+              <option value="default">Default</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="catalogStatus" class="catalog-status" aria-live="polite"></div>
+
+        <!-- Product catalog is rendered dynamically from the backend -->
+        <div class="category-section" data-category="eggs">
+          <h2 class="category-title">🥚 Fresh Eggs</h2>
+          <div class="products-grid eggs-grid"></div>
+        </div>
+
+        <div class="category-section" data-category="live">
+          <h2 class="category-title">🐔 Live Chickens</h2>
+          <div class="products-grid live-grid"></div>
+        </div>
+
+        <div class="category-section" data-category="chicks">
+          <h2 class="category-title">🐤 Day-Old Chicks</h2>
+          <div class="products-grid chicks-grid"></div>
+        </div>
+
+        <div class="category-section" data-category="feed">
+          <h2 class="category-title">🌾 Poultry Feed</h2>
+          <div class="products-grid feed-grid"></div>
+        </div>
+
+        <div class="category-section" data-category="equipment">
+          <h2 class="category-title">⚙️ Equipment & Accessories</h2>
+          <div class="products-grid equipment-grid"></div>
+        </div>
+      </div>
+    </main>
+
+    <section class="customer-reviews">
+      <div class="container">
+        <h2 class="section-title">Customer Reviews</h2>
+        <div class="reviews-grid" id="reviewsGrid"></div>
+        <div class="review-form-card">
+          <h3>Share Your Experience</h3>
+          <form id="reviewForm">
+            <div class="form-row">
+              <input
+                type="text"
+                id="reviewerName"
+                placeholder="Your name"
+                required
+              />
+            </div>
+            <div class="form-row rating-row">
+              <label for="reviewRating">Rating</label>
+              <select id="reviewRating" required>
+                <option value="5">★★★★★ 5</option>
+                <option value="4">★★★★ 4</option>
+                <option value="3">★★★ 3</option>
+                <option value="2">★★ 2</option>
+                <option value="1">★ 1</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <textarea
+                id="reviewText"
+                placeholder="Write your review..."
+                rows="4"
+                required
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Review</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Nyame Nti Poultry Farm</h4>
+          <p>
+            Wenchi-BOADAN, Bono Region, Ghana<br />+233 20 000 0000<br />abasspoultry@gmail.com
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="cart.html">Cart</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Payment Methods</h4>
+          <div class="payment-icons">
+            MTN MoMo | Vodafone Cash | AirtelTigo | Bank Transfer
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Nyame Nti Poultry Farm. Fresh From the Farm, Straight to
+          Your Table.
+        </p>
+      </div>
+    </footer>
+
+    <a
+      href="https://wa.me/233200000000?text=Hello%2C%20I%20want%20to%20order"
+      target="_blank"
+      class="whatsapp-float"
+    >
+      <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="/scripts/auth.js"></script>
+    <script src="/scripts/shop-script.js"></script>
+  </body>
+</html>

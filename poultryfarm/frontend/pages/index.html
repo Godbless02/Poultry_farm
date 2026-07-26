@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    />
+    <title>
+      Nyame Nti Poultry Farm | Fresh From the Farm, Straight to Your Table
+    </title>
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome 6 (free icons) -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- External CSS -->
+    <link rel="stylesheet" href="/styles/style.css" />
+  </head>
+  <body>
+    <!-- ==================== HEADER / NAVBAR ==================== -->
+    <header class="header">
+      <div class="container header-container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-main">Nyame Nti Poultry Farm</span>
+            <span class="logo-tagline"
+              >Fresh From the Farm, Straight to Your Table</span
+            >
+          </a>
+        </div>
+        <nav class="navbar">
+          <ul class="nav-menu">
+            <li><a href="index.html" class="nav-link active">Home</a></li>
+            <li><a href="shop.html" class="nav-link">Shop</a></li>
+            <li>
+              <a href="#" id="cartLink" class="nav-link"
+                >Cart <span id="cartCountBadge" class="cart-badge">0</span></a
+              >
+            </li>
+            <li>
+              <a href="login.html" class="nav-link" id="authLink">Login</a>
+            </li>
+            <li>
+              <span class="nav-link" id="authUser" style="display: none"></span>
+            </li>
+          </ul>
+          <div class="hamburger">
+            <i class="fas fa-bars"></i>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero">
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <h1>Fresh Poultry. Delivered to You.</h1>
+        <p>
+          Order directly from Nyame Nti Poultry Farm in Wenchi-BOADAN. No
+          middlemen. Just quality.
+        </p>
+        <div class="hero-buttons">
+          <a href="shop.html" class="btn btn-primary"
+            >Shop Now <i class="fas fa-arrow-right"></i
+          ></a>
+          <a
+            href="https://wa.me/233200000000?text=Hello%2C%20I%20want%20to%20order"
+            target="_blank"
+            class="btn btn-outline"
+            ><i class="fab fa-whatsapp"></i> Order via WhatsApp</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== WHY CHOOSE US ==================== -->
+    <section class="why-choose">
+      <div class="container">
+        <h2 class="section-title">Why Choose Us</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <i class="fas fa-egg"></i>
+            <h3>Fresh Daily</h3>
+            <p>Eggs & chickens straight from our farm</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-tractor"></i>
+            <h3>Farm Direct Price</h3>
+            <p>No middlemen, best value</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-truck"></i>
+            <h3>Fast Delivery</h3>
+            <p>Same-day in Wenchi zone</p>
+          </div>
+          <div class="feature-card">
+            <i class="fas fa-check-circle"></i>
+            <h3>Quality Assured</h3>
+            <p>Healthy birds & premium feed</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FEATURED PRODUCTS (CAROUSEL) ==================== -->
+    <section class="featured">
+      <div class="container">
+        <h2 class="section-title">Featured Products</h2>
+        <div class="carousel-container">
+          <button class="carousel-btn prev" id="prevBtn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="carousel-track" id="carouselTrack"></div>
+          <button class="carousel-btn next" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== HOW TO ORDER ==================== -->
+    <section class="how-to-order">
+      <div class="container">
+        <h2 class="section-title">How to Order</h2>
+        <div class="steps">
+          <div class="step">
+            <span class="step-number">1</span>
+            <h3>Browse Products</h3>
+            <p>Select fresh eggs, chickens, feed & equipment</p>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <h3>Add to Cart</h3>
+            <p>Choose quantity & proceed to checkout</p>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <h3>Pay & Receive</h3>
+            <p>MoMo, bank or pay on delivery (Wenchi zone)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="testimonials">
+      <div class="container">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <div class="testimonial-grid">
+          <div class="testimonial-card">
+            <i class="fas fa-star"></i>
+            <p>"Best eggs in Wenchi! Always fresh and fast delivery."</p>
+            <h4>- Adwoa Mensah</h4>
+          </div>
+          <div class="testimonial-card">
+            <i class="fas fa-star"></i>
+            <p>"I buy broilers regularly, healthy birds and fair price."</p>
+            <h4>- Kwame Asare</h4>
+          </div>
+          <div class="testimonial-card">
+            <i class="fas fa-star"></i>
+            <p>"Their day-old chicks survived very well, highly recommend."</p>
+            <h4>- Mr. Osei</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== WHATSAPP CTA BANNER ==================== -->
+    <section class="whatsapp-cta">
+      <div class="container">
+        <h3>Prefer to order via WhatsApp?</h3>
+        <p>Chat with us directly and we'll assist you.</p>
+        <a
+          href="https://wa.me/233531451816?text=Hello%2C%20I%20want%20to%20order"
+          target="_blank"
+          class="btn btn-wa"
+          ><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a
+        >
+      </div>
+    </section>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+      <div class="container footer-grid">
+        <div class="footer-col">
+          <h4>Nyame Nti Poultry Farm</h4>
+          <p>
+            Wenchi-BOADAN, Bono Region, Ghana<br />+233 20 000 0000<br />abasspoultry@gmail.com
+          </p>
+          <div class="social">
+            <a href="https://facebook.com/abasspoultyfarms" target="_blank"
+              ><i class="fab fa-facebook"></i></a
+            ><a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Shop</a></li>
+            <li><a href="#">Cart</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Payment Methods</h4>
+          <div class="payment-icons">
+            <i class="fas fa-mobile-alt"></i> MTN MoMo
+            <i class="fas fa-mobile-alt"></i> Vodafone Cash
+            <i class="fas fa-mobile-alt"></i> AirtelTigo
+            <i class="fas fa-university"></i> Bank Transfer
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2025 Nyame Nti Poultry Farm. Fresh From the Farm, Straight to
+          Your Table.
+        </p>
+      </div>
+    </footer>
+
+    <!-- FLOATING WHATSAPP BUTTON (on all pages) -->
+    <a
+      href="https://wa.me/2335314518160?text=Hello%2C%20I%20want%20to%20order"
+      target="_blank"
+      class="whatsapp-float"
+      id="whatsappFloat"
+      ><i class="fab fa-whatsapp"></i
+    ></a>
+
+    <!-- External JS -->
+    <script src="/scripts/auth.js"></script>
+    <script src="/scripts/cart.js"></script>
+    <script src="/scripts/products.js"></script>
+    <script src="/scripts/main.js"></script>
+  </body>
+</html>
