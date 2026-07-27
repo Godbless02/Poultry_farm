@@ -81,8 +81,15 @@ def is_strong_password(password):
 
 def _send_mail(subject, recipient, body):
     smtp_server = current_app.config.get("SMTP_SERVER")
-    if not smtp_server:
-        print(f"[auth] {subject} to {recipient}:\n{body}")
+    smtp_username = current_app.config.get("SMTP_USERNAME")
+    smtp_password = current_app.config.get("SMTP_PASSWORD")
+
+    # Only attempt a real connection if ALL three are actually set.
+    # A server hostname alone (e.g. a leftover default of "smtp.gmail.com")
+    # is not enough — without real credentials this used to hang trying to
+    # connect anyway, which crashed the whole Gunicorn worker on Render.
+    if not smtp_server or not smtp_username or not smtp_password:
+        print(f"[DEV MODE — no SMTP credentials configured] {subject} to {recipient}:\n{body}")
         return True
 
     msg = EmailMessage()
@@ -92,10 +99,13 @@ def _send_mail(subject, recipient, body):
     msg.set_content(body)
 
     try:
-        with smtplib.SMTP(smtp_server, current_app.config.get("SMTP_PORT", 587)) as smtp:
+        # timeout= is critical: without it, a blocked/firewalled outbound
+        # connection hangs until Gunicorn's worker timeout kills the whole
+        # process (SIGKILL), which happens *before* this except block can
+        # ever run.
+        with smtplib.SMTP(smtp_server, current_app.config.get("SMTP_PORT", 587), timeout=10) as smtp:
             smtp.starttls()
-            if current_app.config.get("SMTP_USERNAME") and current_app.config.get("SMTP_PASSWORD"):
-                smtp.login(current_app.config["SMTP_USERNAME"], current_app.config["SMTP_PASSWORD"])
+            smtp.login(smtp_username, smtp_password)
             smtp.send_message(msg)
     except Exception as exc:
         print(f"[auth] Failed to send mail to {recipient}: {exc}")
@@ -257,14 +267,15 @@ def register_auth_routes(app):
         user.verification_token = secrets.token_urlsafe(32)
 
         db.session.add(user)
+        db.session.commit()  # Account is created regardless of email outcome.
 
-        if not send_verification_email(user, user.verification_token):
-            db.session.rollback()
-            return jsonify({
-            "error": "Unable to send verification email. Please try again later."
-            }), 500
-
-        db.session.commit()
+        # Best-effort only — a mail failure must never undo the account or
+        # crash the request. Worst case: the user just doesn't get an email
+        # and can use "Resend verification email" later.
+        try:
+            send_verification_email(user, user.verification_token)
+        except Exception as exc:
+            print(f"[auth] Verification email failed for {user.email}: {exc}")
 
         return jsonify({
             "message": "Account created successfully. Please check your email to verify your account."
@@ -285,12 +296,32 @@ def register_auth_routes(app):
         if not user.check_password(password):
             return jsonify({"error": "Incorrect password. Please try again."}), 401
 
-        if not user.is_verified:
-            return jsonify({"error": "Please verify your email before logging in."}), 403
+        # Verification is informational, not a login gate — email delivery
+        # isn't reliable enough on this deployment to lock accounts behind it.
+        # user.is_verified still gets set correctly when they do click the link.
 
         session.clear()
         session["user_id"] = user.id
         return jsonify({"message": f"Welcome back, {user.name}!", "user": user.to_dict()})
+
+    @app.route("/api/resend-verification", methods=["POST"])
+    def resend_verification():
+        data = request.get_json(silent=True) or {}
+        email = sanitize_input(data.get("email")).lower()
+        user = User.query.filter_by(email=email).first()
+
+        # Same response either way — don't reveal whether the email exists.
+        generic_message = "If that account exists and isn't verified yet, a new verification email has been sent."
+
+        if user and not user.is_verified:
+            user.verification_token = secrets.token_urlsafe(32)
+            db.session.commit()
+            try:
+                send_verification_email(user, user.verification_token)
+            except Exception as exc:
+                print(f"[auth] Resend verification failed for {user.email}: {exc}")
+
+        return jsonify({"message": generic_message})
 
     @app.route("/api/logout", methods=["POST"])
     def logout():
