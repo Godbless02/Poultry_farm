@@ -7,6 +7,7 @@ import string
 from datetime import datetime, timedelta
 from email.message import EmailMessage
 from functools import wraps
+from seed import seed_products
 
 from flask import Flask, current_app, request, jsonify, session, send_from_directory, redirect
 from flask_cors import CORS
@@ -16,6 +17,7 @@ from config import Config
 from models import db, User, Product, Order, OrderItem
 from pricing import calculate_totals
 from paystack import initialize_transaction, verify_transaction
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 FRONTEND_DIR = os.path.join(BASE_DIR, "..", "frontend")
@@ -35,6 +37,7 @@ def create_app():
     with app.app_context():
         db.create_all()
         ensure_user_schema(app)
+        seed_products()
 
     register_static_routes(app)
     register_auth_routes(app)
@@ -86,11 +89,15 @@ def _send_mail(subject, recipient, body):
     msg["To"] = recipient
     msg.set_content(body)
 
-    with smtplib.SMTP(smtp_server, current_app.config.get("SMTP_PORT", 587)) as smtp:
-        smtp.starttls()
-        if current_app.config.get("SMTP_USERNAME") and current_app.config.get("SMTP_PASSWORD"):
-            smtp.login(current_app.config["SMTP_USERNAME"], current_app.config["SMTP_PASSWORD"])
-        smtp.send_message(msg)
+    try:
+        with smtplib.SMTP(smtp_server, current_app.config.get("SMTP_PORT", 587)) as smtp:
+            smtp.starttls()
+            if current_app.config.get("SMTP_USERNAME") and current_app.config.get("SMTP_PASSWORD"):
+                smtp.login(current_app.config["SMTP_USERNAME"], current_app.config["SMTP_PASSWORD"])
+            smtp.send_message(msg)
+    except Exception as exc:
+        print(f"[auth] Failed to send mail to {recipient}: {exc}")
+        return False
 
     return True
 
@@ -108,7 +115,7 @@ def send_verification_email(user, token):
 
 
 def send_password_reset_email(user, token):
-    app_url = current_app.config.get("APP_URL", "http://127.0.0.1:5000")
+    app_url = current_app.config.get("APP_URL") or request.url_root.rstrip("/")
     reset_url = f"{app_url}/pages/login.html?reset_token={token}"
     body = (
         f"Hi {user.name},\n\n"
@@ -284,13 +291,20 @@ def register_auth_routes(app):
             return jsonify({"error": "Please enter your email address."}), 400
 
         user = User.query.filter_by(email=email).first()
-        if user:
-            user.reset_token = secrets.token_urlsafe(32)
-            user.reset_expires_at = datetime.utcnow() + timedelta(minutes=30)
-            db.session.commit()
-            send_password_reset_email(user, user.reset_token)
+        if not user:
+            return jsonify({"error": "No account exists with this email address."}), 404
 
-        return jsonify({"message": "If an account exists for that email, a password reset link has been sent."})
+        user.reset_token = secrets.token_urlsafe(32)
+        user.reset_expires_at = datetime.utcnow() + timedelta(minutes=30)
+        db.session.commit()
+
+        if not send_password_reset_email(user, user.reset_token):
+            user.reset_token = None
+            user.reset_expires_at = None
+            db.session.commit()
+            return jsonify({"error": "Unable to send reset email. Please try again later."}), 500
+
+        return jsonify({"message": "Password reset link has been sent. Please check your email."})
 
     @app.route("/api/reset-password", methods=["POST"])
     def reset_password():

@@ -3,14 +3,26 @@
 // tracks login state, instead of storing plaintext passwords in localStorage.
 
 async function apiPost(path, body) {
-  const res = await fetch(path, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    credentials: "include",
-    body: JSON.stringify(body || {}),
-  });
-  const data = await res.json().catch(() => ({}));
-  return { ok: res.ok, data };
+  try {
+    const res = await fetch(path, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify(body || {}),
+    });
+    const data = await res.json().catch(() => ({}));
+    return { ok: res.ok, data };
+  } catch (error) {
+    return {
+      ok: false,
+      data: {
+        error:
+          error && error.message
+            ? `Network error: ${error.message}`
+            : "Unable to communicate with the server.",
+      },
+    };
+  }
 }
 
 async function apiGet(path) {
@@ -82,22 +94,66 @@ async function loginUser(email, password) {
 }
 
 async function requestPasswordReset(email) {
+  const submitButton = document.querySelector(
+    "#forgotPasswordForm button[type='submit']",
+  );
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Sending...";
+  }
+
   if (!email.trim()) {
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = "Send reset link";
+    }
     return { success: false, message: "Please enter your email address." };
   }
+
   const { ok, data } = await apiPost("/api/forgot-password", { email });
+
+  if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.textContent = "Send reset link";
+  }
+
   return { success: ok, message: data.message || data.error };
 }
 
 async function resetPassword(token, password, passwordConfirm) {
-  if (!token.trim() || !password.trim() || !passwordConfirm.trim()) {
+  if (!token.trim()) {
+    return {
+      success: false,
+      message:
+        "Reset token is missing or invalid. Please request a new password reset link.",
+    };
+  }
+  if (!password.trim() || !passwordConfirm.trim()) {
     return { success: false, message: "Please complete all fields." };
   }
+  if (password !== passwordConfirm) {
+    return { success: false, message: "Passwords do not match." };
+  }
+
+  const submitButton = document.querySelector(
+    "#resetPasswordForm button[type='submit']",
+  );
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = "Resetting...";
+  }
+
   const { ok, data } = await apiPost("/api/reset-password", {
     token,
     password,
     password_confirm: passwordConfirm,
   });
+
+  if (submitButton) {
+    submitButton.disabled = false;
+    submitButton.textContent = "Reset password";
+  }
+
   return { success: ok, message: data.message || data.error };
 }
 

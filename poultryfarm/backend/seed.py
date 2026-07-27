@@ -6,6 +6,7 @@ Note: the original products.js had duplicate ids (two products used id 4,
 three used id 5). Each product below gets its own unique id since the
 database enforces that automatically via autoincrement.
 """
+import sys
 from app import create_app
 from models import db, Product
 
@@ -32,10 +33,26 @@ PRODUCTS = [
     {"name": "Brooding Lamp", "price": 60, "unit": "each", "category": "equipment", "stock": 5, "image": "/images/lamp1.jpg"},
 ]
 
-app = create_app()
-with app.app_context():
-    Product.query.delete()
-    for p in PRODUCTS:
-        db.session.add(Product(**p))
-    db.session.commit()
-    print(f"Seeded {len(PRODUCTS)} products.")
+def seed_products():
+    if Product.query.first():
+        print("Products already exist. Skipping seed.")
+        return
+
+    print("Database empty. Seeding default products...")
+
+    try:
+        for p in PRODUCTS:
+            db.session.add(Product(**p))
+
+        db.session.commit()
+
+        print(f"Seeded {len(PRODUCTS)} products successfully.")
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"Failed to seed products: {e}")
+
+if __name__ == "__main__":
+    app = create_app()
+    with app.app_context():
+        seed_products()
