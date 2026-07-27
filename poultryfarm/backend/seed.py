@@ -7,8 +7,8 @@ three used id 5). Each product below gets its own unique id since the
 database enforces that automatically via autoincrement.
 """
 import sys
-from app import create_app
 from models import db, Product
+
 
 PRODUCTS = [
     {"name": "Half Tray (15 eggs)", "price": 14, "unit": "per half tray", "category": "eggs", "stock": 45, "image": "/images/eggg1.jpg"},
@@ -52,7 +52,3 @@ def seed_products():
         db.session.rollback()
         print(f"Failed to seed products: {e}")
 
-if __name__ == "__main__":
-    app = create_app()
-    with app.app_context():
-        seed_products()

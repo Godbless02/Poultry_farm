@@ -36,8 +36,10 @@ def create_app():
 
     with app.app_context():
         db.create_all()
-        ensure_user_schema(app)
-        seed_products()
+        if Product.query.count() == 0:
+           
+            ensure_user_schema(app)
+            seed_products()
 
     register_static_routes(app)
     register_auth_routes(app)
