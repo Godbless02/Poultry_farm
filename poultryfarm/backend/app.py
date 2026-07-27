@@ -246,16 +246,29 @@ def register_auth_routes(app):
         if User.query.filter_by(username=username.lower()).first():
             return jsonify({"error": "Username already exists. Please choose another username."}), 409
 
-        user = User(name=name, username=username.lower(), email=email)
+        user = User(
+            name=name,
+            username=username.lower(),
+            email=email
+        )
+
         user.set_password(password)
         user.is_verified = False
         user.verification_token = secrets.token_urlsafe(32)
+
         db.session.add(user)
+
+        if not send_verification_email(user, user.verification_token):
+            db.session.rollback()
+            return jsonify({
+            "error": "Unable to send verification email. Please try again later."
+            }), 500
+
         db.session.commit()
 
-        send_verification_email(user, user.verification_token)
-        return jsonify({"message": "Account created successfully. Please log in."}), 201
-
+        return jsonify({
+            "message": "Account created successfully. Please check your email to verify your account."
+        }), 201
     @app.route("/api/login", methods=["POST"])
     def login():
         data = request.get_json(silent=True) or {}
