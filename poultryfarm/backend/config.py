@@ -21,7 +21,7 @@ class Config:
     SMTP_PORT = int(os.environ.get("SMTP_PORT", "587"))
     SMTP_USERNAME = os.environ.get("SMTP_USERNAME", "")
     SMTP_PASSWORD = os.environ.get("SMTP_PASSWORD", "")
-    MAIL_FROM = os.environ.get("MAIL_FROM", "noreply@poultryfarm.com")
+    MAIL_FROM = os.environ.get("MAIL_FROM", "")
 
     ADMIN_EMAIL = os.environ.get("ADMIN_EMAIL", "admin@poultryfarm.com")
     ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "changeme123")
